@@ -11,30 +11,30 @@ $movies = [
         'title' => 'Dungeons & Dragons: Honor Among Thieves',
         'genre' => 'Adventure/Fantasy',
         'thumbnail' => 'Dungeons.jpg',
-        'trailer' => 'https://www.youtube.com/embed/LXb3EKWsInQ?autoplay=1&mute=0&end=60'
+        'trailer' => 'Dnd.mp4'
     ],
     [
         'title' => 'Big Hero 6',
         'genre' => 'Family/Action',
         'thumbnail' => 'BigHero.jpg',
-        'trailer' => 'https://www.youtube.com/embed/eVTXPUF4Oz4?autoplay=1&mute=0&end=60'
+        'trailer' => 'Hero.mp4'
     ],
     [
         'title' => 'Five Nights at Freddy`s',
         'genre' => 'Horror/Mystery',
         'thumbnail' => 'Fnaf.jpg',
-        'trailer' => 'https://www.youtube.com/embed/5Kod1q39ddE?autoplay=1&mute=0&end=60'
+        'trailer' => 'Nights.mp4'
     ],
     [
-        'title' => 'kkkkk',
-        'genre' => 'Fantasy Epic',
-        'thumbnail' => 'https://loremflickr.com/300/450/fantasy,dragon',
+        'title' => 'The Book Of Life',
+        'genre' => 'Family/Adventure',
+        'thumbnail' => 'Book.jpg',
         'trailer' => 'https://www.youtube.com/embed/zSWdZVtXT7E?autoplay=1&mute=0&end=60'
     ],
     [
-        'title' => 'Code Black',
-        'genre' => 'Cyberpunk',
-        'thumbnail' => 'https://loremflickr.com/300/450/cyberpunk,neon',
+        'title' => 'Until Dawn',
+        'genre' => 'Horror/Survival',
+        'thumbnail' => 'Dawn.jpg',
         'trailer' => 'https://www.youtube.com/embed/8X_Ot0k4XJc?autoplay=1&mute=0&end=60'
     ],
     [
@@ -167,5 +167,6 @@ $heroMovie = $movies[0]; // Featured movie for hero section
 </body>
 
 </html>
+
 
 
