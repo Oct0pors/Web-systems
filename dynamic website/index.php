@@ -29,37 +29,37 @@ $movies = [
         'title' => 'The Book Of Life',
         'genre' => 'Family/Adventure',
         'thumbnail' => 'Book.jpg',
-        'trailer' => 'https://www.youtube.com/embed/zSWdZVtXT7E?autoplay=1&mute=0&end=60'
+        'trailer' => 'Life.mp4'
     ],
     [
         'title' => 'Until Dawn',
         'genre' => 'Horror/Survival',
         'thumbnail' => 'Dawn.jpg',
-        'trailer' => 'https://www.youtube.com/embed/8X_Ot0k4XJc?autoplay=1&mute=0&end=60'
+        'trailer' => 'Until.mp4'
     ],
     [
-        'title' => 'Velocity Rush',
-        'genre' => 'Racing Action',
-        'thumbnail' => 'https://loremflickr.com/300/450/car,racing',
-        'trailer' => 'https://www.youtube.com/embed/iIY5b1JMvGs?autoplay=1&mute=0&end=60'
+        'title' => 'Jumanji: Welcome to the Jungle',
+        'genre' => 'Adventure/Action',
+        'thumbnail' => 'Jumanji.jpg',
+        'trailer' => 'Jungle'
     ],
     [
-        'title' => 'Forgotten Realm',
-        'genre' => 'Mystery',
-        'thumbnail' => 'https://loremflickr.com/300/450/mystery,ancient',
-        'trailer' => 'https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&mute=0&end=60'
+        'title' => 'Central Intelligence',
+        'genre' => 'Comedy/Action',
+        'thumbnail' => 'Central.jpg',
+        'trailer' => 'Intelligence.mp4'
     ],
     [
-        'title' => 'Titan Rising',
-        'genre' => 'Superhero',
-        'thumbnail' => 'https://loremflickr.com/300/450/superhero,city',
-        'trailer' => 'https://www.youtube.com/embed/QdBEDXHwSxs?autoplay=1&mute=0&end=60'
+        'title' => 'A Minecraft Movie',
+        'genre' => 'Adventure/Fantasy',
+        'thumbnail' => 'Mine.jpg',
+        'trailer' => 'Craft.mp4'
     ],
     [
-        'title' => 'Arctic Storm',
-        'genre' => 'Survival Drama',
-        'thumbnail' => 'https://loremflickr.com/300/450/snow,arctic',
-        'trailer' => 'https://www.youtube.com/embed/zvRPA-Yfnl4?autoplay=1&mute=0&end=60'
+        'title' => 'Escape Room',
+        'genre' => 'Horror/Sci-Fi',
+        'thumbnail' => 'Escape.jpg',
+        'trailer' => 'Room.mp4'
     ]
 ];
 
@@ -167,6 +167,7 @@ $heroMovie = $movies[0]; // Featured movie for hero section
 </body>
 
 </html>
+
 
 
 
