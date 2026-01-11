@@ -1,157 +1,215 @@
-// ===========================
-// XILFTEN PRIME - JavaScript
-// ===========================
+// Preloader & Header Effects
+window.addEventListener('load', () => setTimeout(() => document.getElementById('preloader').style.display = 'none', 1000));
 
-// Global Variables
-let trailerModal;
-let trailerIframe;
-let autoCloseTimer;
-
-// Initialize on DOM Load
-document.addEventListener('DOMContentLoaded', function() {
-    // Get modal and iframe elements
-    trailerModal = new bootstrap.Modal(document.getElementById('trailerModal'));
-    trailerIframe = document.getElementById('trailerIframe');
-    
-    // Add event listener for modal close
-    document.getElementById('trailerModal').addEventListener('hidden.bs.modal', function() {
-        stopTrailer();
-    });
-    
-    // Navbar scroll effect
-    handleNavbarScroll();
+window.addEventListener('scroll', function() {
+    const header = document.querySelector('.header');
+    window.scrollY > 50 ? header.classList.add('scrolled') : header.classList.remove('scrolled');
 });
 
-/**
- * Open trailer in modal with autoplay
- * @param {string} trailerUrl - YouTube embed URL
- */
-function openTrailer(trailerUrl) {
-    // Set the iframe source with autoplay parameter
-    trailerIframe.src = trailerUrl;
-    
-    // Show the modal
-    trailerModal.show();
-    
-    // Set auto-close timer (60 seconds)
-    clearTimeout(autoCloseTimer);
-    autoCloseTimer = setTimeout(function() {
-        closeTrailer();
-    }, 60000); // 60 seconds
+document.getElementById('logo').addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
+
+// =========================================
+// 1. Data & DOM Elements
+// =========================================
+
+// Wallpaper Images
+const heroImages = [
+    '1.png', 
+    '2.jpg',
+    '3.jpeg',
+    '4.jpg'
+];
+
+// Containers
+const topPicksContainer = document.getElementById('topPicksContainer');
+const trendingContainer = document.getElementById('trendingContainer');
+
+// Filter Inputs
+const genreFilter = document.getElementById('genreFilter');
+const yearFilter = document.getElementById('yearFilter');
+const resetBtn = document.getElementById('resetFilters');
+
+// =========================================
+// 2. Main Logic
+// =========================================
+
+function createMovieCard(movie) {
+    return `
+        <div class="movie-card" data-movie-id="${movie.id}">
+            <img src="${movie.thumbnail}" alt="${movie.title}" class="movie-thumbnail">
+            <div class="movie-overlay">
+                <h3 class="movie-title">${movie.title}</h3>
+                <p class="movie-year">${movie.year}</p>
+            </div>
+        </div>
+    `;
 }
 
-/**
- * Close trailer modal
- */
-function closeTrailer() {
-    trailerModal.hide();
-    stopTrailer();
-}
+function renderCarousels(filterGenre = 'all', filterYear = 'all') {
+    // 1. Check if the user is currently filtering
+    const isFiltering = (filterGenre !== 'all' || filterYear !== 'all');
 
-/**
- * Stop trailer playback and clear timer
- */
-function stopTrailer() {
-    // Clear the iframe source to stop video
-    trailerIframe.src = '';
-    
-    // Clear auto-close timer
-    clearTimeout(autoCloseTimer);
-}
+    // 2. Filter the Data
+    let filteredMovies = moviesData.filter(movie => {
+        const genreMatch = filterGenre === 'all' || movie.genre.includes(filterGenre);
+        
+        let yearMatch = false;
+        if (filterYear === 'all') yearMatch = true;
+        else if (filterYear === '2014') yearMatch = parseInt(movie.year) <= 2020;
+        else yearMatch = movie.year === filterYear;
 
-/**
- * Handle navbar background on scroll
- */
-function handleNavbarScroll() {
-    const navbar = document.querySelector('.navbar');
-    
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 100) {
-            navbar.style.background = 'rgba(20, 20, 20, 0.95)';
+        return genreMatch && yearMatch;
+    });
+
+    // 3. Clear Containers
+    topPicksContainer.innerHTML = '';
+    trendingContainer.innerHTML = '';
+
+    // 4. LOGIC SWITCH: Loop vs Single Result
+    if (isFiltering) {
+        // --- SEARCH MODE ---
+        // Turn OFF duplicates (Loop = 1)
+        // Hide the "Trending" section so we don't see results twice
+        // Change "Top Picks" title to "Search Results"
+        
+        const trendingSection = trendingContainer.closest('.movie-section');
+        const topPicksSection = topPicksContainer.closest('.movie-section');
+        const topPicksTitle = topPicksSection.querySelector('.section-title');
+
+        if(filteredMovies.length > 0) {
+            // Show exact matches, no looping
+            fillContainer(topPicksContainer, filteredMovies, 1); 
+            
+            // Updates styles for Search Mode
+            trendingSection.style.display = 'none';
+            topPicksTitle.textContent = `Found ${filteredMovies.length} Movies`;
         } else {
-            navbar.style.background = 'linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%)';
+            topPicksContainer.innerHTML = '<p style="color: #999; padding-left: 10px;">No movies found.</p>';
+            trendingSection.style.display = 'none';
+            topPicksTitle.textContent = 'Search Results';
         }
-    });
+
+    } else {
+        // --- HOME MODE ---
+        // Turn ON duplicates (Loop = 6) for infinite scroll effect
+        // Show both sections
+        
+        const trendingSection = trendingContainer.closest('.movie-section');
+        const topPicksSection = topPicksContainer.closest('.movie-section');
+        
+        trendingSection.style.display = 'block';
+        topPicksSection.querySelector('.section-title').textContent = 'Top Picks for You';
+
+        const topMovies = filteredMovies.filter(m => m.category === 'top');
+        const trendMovies = filteredMovies.filter(m => m.category === 'trending');
+
+        fillContainer(topPicksContainer, topMovies, 6);
+        fillContainer(trendingContainer, trendMovies, 6);
+    }
+
+    // 5. Re-attach Click Events
+    attachModalEvents();
 }
 
-/**
- * Add smooth scroll behavior
- */
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
-
-/**
- * Keyboard accessibility for movie cards
- */
-document.querySelectorAll('.movie-card').forEach(card => {
-    // Make cards keyboard accessible
-    card.setAttribute('tabindex', '0');
-    card.setAttribute('role', 'button');
+function fillContainer(container, list, repeats) {
+    if(list.length === 0) return;
     
-    // Add keyboard support
-    card.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            this.click();
-        }
-    });
-});
-
-/**
- * Preload hero background image
- */
-function preloadHeroImage() {
-    const heroSection = document.querySelector('.hero-section');
-    const bgImage = new Image();
-    bgImage.src = 'https://loremflickr.com/1920/1080/cinematic,movie';
-    
-    bgImage.onload = function() {
-        heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(20,20,20,0.9)), url('${bgImage.src}')`;
-    };
+    let htmlContent = '';
+    // This loop creates the duplicates. 
+    // If repeats is 1, it runs once. If 6, it runs 6 times.
+    for (let i = 0; i < repeats; i++) {
+        list.forEach(movie => {
+            htmlContent += createMovieCard(movie);
+        });
+    }
+    container.innerHTML = htmlContent;
 }
 
-// Call preload function
-preloadHeroImage();
+// =========================================
+// 3. Modal Logic
+// =========================================
+const modal = document.getElementById('movieModal');
+const closeModal = document.querySelector('.close-modal');
 
-/**
- * Add loading state to images
- */
-document.querySelectorAll('.movie-thumbnail img').forEach(img => {
-    img.addEventListener('load', function() {
-        this.classList.add('loaded');
-    });
-});
-
-/**
- * Performance: Lazy load movie thumbnails
- */
-if ('IntersectionObserver' in window) {
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                img.src = img.dataset.src || img.src;
-                img.classList.add('fade-in');
-                observer.unobserve(img);
+function attachModalEvents() {
+    const allCards = document.querySelectorAll('.movie-card');
+    allCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const movieId = parseInt(this.getAttribute('data-movie-id'));
+            const movie = moviesData.find(m => m.id === movieId);
+            if (movie) {
+                document.getElementById('modalTitle').textContent = movie.title;
+                document.getElementById('modalYear').textContent = movie.year;
+                document.getElementById('modalRating').textContent = movie.rating;
+                document.getElementById('modalDuration').textContent = movie.duration;
+                document.getElementById('modalGenre').textContent = movie.genre;
+                document.getElementById('modalDescription').textContent = movie.description;
+                document.getElementById('trailerFrame').src = movie.trailer + '?autoplay=1';
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
             }
         });
     });
-    
-    document.querySelectorAll('.movie-thumbnail img').forEach(img => {
-        imageObserver.observe(img);
-    });
 }
 
-// Console easter egg
-console.log('%c🎬 XILFTEN PRIME', 'color: #e50914; font-size: 24px; font-weight: bold;');
-console.log('%cWelcome to the future of entertainment.', 'color: #b3b3b3; font-size: 14px;');
+function closeModalFunction() {
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+    document.getElementById('trailerFrame').src = '';
+}
+
+closeModal.addEventListener('click', closeModalFunction);
+modal.addEventListener('click', (e) => { if (e.target === modal) closeModalFunction(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModalFunction(); });
+
+// =========================================
+// 4. Events & Initialization
+// =========================================
+
+genreFilter.addEventListener('change', () => {
+    renderCarousels(genreFilter.value, yearFilter.value);
+});
+
+yearFilter.addEventListener('change', () => {
+    renderCarousels(genreFilter.value, yearFilter.value);
+});
+
+resetBtn.addEventListener('click', () => {
+    genreFilter.value = 'all';
+    yearFilter.value = 'all';
+    renderCarousels();
+});
+
+// Scroll Logic
+[topPicksContainer, trendingContainer].forEach(carousel => {
+    let isDown = false, startX, scrollLeft;
+    carousel.addEventListener('mousedown', (e) => {
+        isDown = true;
+        startX = e.pageX - carousel.offsetLeft;
+        scrollLeft = carousel.scrollLeft;
+    });
+    carousel.addEventListener('mouseleave', () => isDown = false);
+    carousel.addEventListener('mouseup', () => isDown = false);
+    carousel.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - carousel.offsetLeft;
+        const walk = (x - startX) * 2;
+        carousel.scrollLeft = scrollLeft - walk;
+    });
+});
+
+// Hero Background
+const heroSection = document.querySelector('.hero');
+let currentImageIndex = 0;
+function changeHeroBackground() {
+    if (heroImages.length > 0) {
+        heroSection.style.backgroundImage = `url('${heroImages[currentImageIndex]}')`;
+        currentImageIndex = (currentImageIndex + 1) % heroImages.length;
+    }
+}
+changeHeroBackground();
+setInterval(changeHeroBackground, 5000);
+
+// Initial Render
+renderCarousels();
