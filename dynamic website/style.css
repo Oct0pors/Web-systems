@@ -1,280 +1,418 @@
 /* =========================================
-   1. GLOBAL VARIABLES & RESET
+   1. Global Reset & Variables
    ========================================= */
 :root {
-    --primary-black: #141414;      /* Netflix Background */
-    --secondary-black: #181818;    /* Cards/Modals */
-    --netflix-red: #e50914;        /* Accents */
+    --primary-color: #e50914; /* Netflix Red */
+    --bg-color: #141414;      /* Deep Dark Background */
+    --card-bg: #1f1f1f;
     --text-white: #ffffff;
     --text-gray: #b3b3b3;
-    --transition-speed: 0.3s;
+    --font-main: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    background-color: var(--primary-black);
+    font-family: var(--font-main);
+    background-color: var(--bg-color);
     color: var(--text-white);
-    font-family: 'Roboto', sans-serif;
-    overflow-x: hidden;
-}
-
-h1, h2, h3, .logo, .btn-hero {
-    font-family: 'Bebas Neue', cursive;
-    letter-spacing: 1px;
+    overflow-x: hidden; /* Prevent horizontal scroll on body */
 }
 
 /* =========================================
-   2. NAVIGATION
+   2. Preloader (Tadum Animation)
    ========================================= */
-.navbar {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, transparent 100%);
-    padding: 20px 4%;
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.preloader-logo {
+    width: 200px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.5; }
+}
+
+/* =========================================
+   3. Header & Navigation
+   ========================================= */
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 90px; /* Increased height */
+    padding: 0 4%;
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.7) 10%, rgba(0,0,0,0));
+    transition: background-color 0.4s ease;
+}
+
+.header.scrolled {
+    background-color: rgb(20, 20, 20); /* Solid background on scroll */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
 }
 
 .logo {
-    font-size: 2rem;
-    color: var(--netflix-red);
-    margin: 0;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-    text-decoration: none;
-}
-
-.logo .highlight {
-    color: var(--text-white);
-}
-
-.nav-links a {
-    color: var(--text-white);
-    text-decoration: none;
-    margin-left: 20px;
-    font-size: 1.1rem;
-    transition: color 0.2s;
-}
-
-.nav-links a:hover {
-    color: var(--text-gray);
+    height: 60px; /* Larger logo */
+    cursor: pointer;
 }
 
 /* =========================================
-   3. HERO SECTION
+   4. Hero Section
    ========================================= */
-.hero-section {
-    height: 85vh;
+.hero {
+    position: relative;
+    height: 85vh; /* Takes up most of the screen */
+    width: 100%;
+    /* Background image is now set by JavaScript */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     display: flex;
     align-items: center;
-    padding: 0 5%;
-    background-size: cover !important; /* Ensure inline PHP bg covers area */
-    background-position: center !important;
-    position: relative;
+    transition: background-image 0.5s ease-in-out; /* Smooth transition for image change */
 }
 
-/* Bottom fade to blend into body */
-.hero-section::after {
+/* Gradient overlay to make text readable */
+.hero::after {
     content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 150px;
-    background: linear-gradient(to top, var(--primary-black), transparent);
-}
-
-.hero-content {
-    max-width: 600px;
-    z-index: 2;
-    margin-top: 50px;
-}
-
-.badge-trending {
-    background-color: rgba(255,255,255,0.2);
-    padding: 5px 10px;
-    font-weight: bold;
-    font-size: 0.9rem;
-    border-left: 3px solid var(--netflix-red);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-.hero-title {
-    font-size: 5rem;
-    line-height: 1;
-    margin: 15px 0;
-    text-shadow: 2px 2px 20px rgba(0,0,0,0.8);
-}
-
-.hero-genre {
-    color: var(--netflix-red);
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.hero-description {
-    font-size: 1.2rem;
-    line-height: 1.5;
-    margin-bottom: 30px;
-    color: #ddd;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-}
-
-.btn-hero {
-    background-color: var(--netflix-red);
-    color: white;
-    border: none;
-    padding: 12px 35px;
-    font-size: 1.5rem;
-    border-radius: 4px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    transition: transform 0.2s, background-color 0.2s;
-}
-
-.btn-hero:hover {
-    background-color: #f40612;
-    transform: scale(1.05);
-}
-
-/* =========================================
-   4. MOVIE GALLERY GRID
-   ========================================= */
-.movie-gallery {
-    padding: 20px 5% 100px;
-    position: relative;
-    z-index: 5;
-    margin-top: -50px; /* Overlap the hero fade */
-}
-
-.section-title {
-    margin-bottom: 20px;
-    font-size: 1.8rem;
-}
-
-.movie-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 15px;
-}
-
-/* =========================================
-   5. MOVIE CARD & HOVER EFFECTS
-   ========================================= */
-.movie-card {
-    background-color: var(--secondary-black);
-    border-radius: 4px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform var(--transition-speed) ease, z-index 0s;
-    position: relative;
-}
-
-/* Scale effect on hover */
-.movie-card:hover {
-    transform: scale(1.1); /* Zoom in */
-    z-index: 10;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.8);
-}
-
-.movie-thumbnail {
-    position: relative;
-    aspect-ratio: 2/3; /* Standard movie poster ratio */
-}
-
-.movie-thumbnail img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Overlay that holds the play button */
-.movie-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.4);
+    background: linear-gradient(to top, #141414 5%, transparent 60%),
+                linear-gradient(to right, #141414 10%, transparent 60%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    padding-left: 4%;
+    max-width: 600px;
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    line-height: 1.1;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+/* =========================================
+   5. Movie Sections (Carousels)
+   ========================================= */
+.movie-section {
+    padding: 20px 0;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 20; /* Sit above hero fade */
+}
+
+/* Pull the first section up slightly to overlap hero */
+.movie-section:first-of-type {
+    margin-top: -150px; 
+}
+
+.section-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #e5e5e5;
+    margin-left: 4%;
+    margin-bottom: 10px;
+}
+
+/* The Horizontal Scroll Container */
+.movie-carousel {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    padding: 20px 4%;
+    gap: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+}
+
+/* Hide Scrollbar for Chrome/Safari/Opera */
+.movie-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide Scrollbar for IE, Edge and Firefox */
+.movie-carousel {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+/* =========================================
+   6. Movie Cards
+   ========================================= */
+.movie-card {
+    flex: 0 0 auto; /* Don't shrink */
+    width: 200px;   /* Fixed width */
+    height: 300px;
+    position: relative;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.3s ease, z-index 0.3s;
+}
+
+.movie-thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* Hover Effect - Netflix Style Pop */
+.movie-card:hover {
+    transform: scale(1.15); /* Grow */
+    z-index: 100;           /* Sit on top of neighbors */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.8);
+}
+
+/* Overlay Information (Initially Hidden) */
+.movie-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
     opacity: 0;
     transition: opacity 0.3s;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
 }
 
 .movie-card:hover .movie-overlay {
     opacity: 1;
 }
 
-/* The Round Play Button */
-.play-button {
-    width: 50px;
-    height: 50px;
-    border: 2px solid white;
-    border-radius: 50%;
-    color: white;
-    font-size: 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-left: 4px; /* Optical centering */
-    background: rgba(0,0,0,0.6);
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
-}
-
-.movie-info {
-    padding: 10px;
-}
-
 .movie-title {
-    font-size: 1rem;
-    margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 5px;
 }
 
-.movie-genre {
-    font-size: 0.8rem;
-    color: var(--text-gray);
-    margin: 0;
+.movie-year {
+    font-size: 0.75rem;
+    color: #46d369; /* Netflix "Match" Green */
+    font-weight: bold;
 }
 
 /* =========================================
-   6. MODAL & FOOTER
+   7. Modal (Popup) Styling
    ========================================= */
-/* Dark Mode Bootstrap Modal Override */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 2000; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.8); 
+    backdrop-filter: blur(5px);
+}
+
 .modal-content {
     background-color: #181818;
-    color: white;
+    margin: 5% auto; 
+    width: 90%;
+    max-width: 800px;
+    border-radius: 8px;
+    box-shadow: 0 5px 30px rgba(0,0,0,0.5);
+    position: relative;
+    overflow: hidden;
+    color: #fff;
 }
 
-.modal-header {
-    border-bottom: 1px solid #333;
-}
-
-.modal-body {
-    padding: 0;
-    background: black;
-}
-
-.footer {
-    padding: 50px 0;
+.close-modal {
+    color: #fff;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 2002;
+    background: rgba(0,0,0,0.5);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
     text-align: center;
+    line-height: 40px;
+}
+
+.close-modal:hover {
+    background: #fff;
+    color: #000;
+}
+
+.modal-video {
+    width: 100%;
+    height: 450px;
+    background: #000;
+}
+
+.modal-info {
+    padding: 30px;
+}
+
+#modalTitle {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.modal-meta {
+    margin-bottom: 15px;
     color: var(--text-gray);
-    border-top: 1px solid #333;
     font-size: 0.9rem;
 }
 
-.footer-tagline {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1.2rem;
-    color: var(--netflix-red);
-    margin-top: 10px;
+.modal-meta span {
+    margin-right: 15px;
 }
 
-/* Mobile Responsiveness */
+#modalRating {
+    border: 1px solid var(--text-gray);
+    padding: 0 5px;
+    font-size: 0.8rem;
+}
+
+#modalDescription {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    color: #d2d2d2;
+}
+
+.play-button {
+    background-color: var(--text-white);
+    color: black;
+    border: none;
+    padding: 10px 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.2s;
+}
+
+.play-button:hover {
+    background-color: rgba(255, 255, 255, 0.75);
+}
+/* =========================================
+   Filter Section Styles
+   ========================================= */
+.filter-section {
+    padding: 20px 4%;
+    position: relative;
+    z-index: 25;
+    margin-top: -80px; /* Pull up to overlap Hero slightly */
+    margin-bottom: 20px;
+}
+
+.filter-container {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    padding: 15px 25px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+    border: 1px solid #333;
+}
+
+.filter-label {
+    font-weight: bold;
+    color: #e5e5e5;
+}
+
+.filter-select {
+    background-color: #333;
+    color: white;
+    border: 1px solid #555;
+    padding: 8px 15px;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.filter-select:hover {
+    background-color: #444;
+}
+
+.filter-reset {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.filter-reset:hover {
+    background-color: #bf0710;
+}
+
+/* Update movie section margin since we added filters */
+.movie-section:first-of-type {
+    margin-top: 0; 
+}
+
+/* =========================================
+   8. Responsive Design
+   ========================================= */
 @media (max-width: 768px) {
-    .hero-title { font-size: 3rem; }
-    .hero-section { height: 60vh; }
-    .movie-grid { grid-template-columns: repeat(2, 1fr); }
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .movie-card {
+        width: 140px;
+        height: 210px;
+    }
+    
+    .movie-section:first-of-type {
+        margin-top: -50px;
+    }
+
+    .modal-video {
+        height: 300px;
+    }
 }
