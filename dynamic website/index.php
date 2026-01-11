@@ -3,7 +3,7 @@
 $movies = [
     [
         'title' => 'Minions',
-        'genre' => 'Animation/Comedy',
+        'genre' => 'Family/Comedy',
         'thumbnail' => 'Minions.jpg',
         'trailer' => 'Trailer1.mp4'
     ],
@@ -14,19 +14,19 @@ $movies = [
         'trailer' => 'https://www.youtube.com/embed/LXb3EKWsInQ?autoplay=1&mute=0&end=60'
     ],
     [
-        'title' => 'The Last Horizon',
-        'genre' => 'Adventure',
-        'thumbnail' => 'https://loremflickr.com/300/450/adventure,mountain',
+        'title' => 'Big Hero 6',
+        'genre' => 'Family/Action',
+        'thumbnail' => 'BigHero.jpg',
         'trailer' => 'https://www.youtube.com/embed/eVTXPUF4Oz4?autoplay=1&mute=0&end=60'
     ],
     [
-        'title' => 'Eternal Night',
-        'genre' => 'Horror',
-        'thumbnail' => 'https://loremflickr.com/300/450/dark,horror',
+        'title' => 'Five Nights at Freddy`s',
+        'genre' => 'Horror/Mystery',
+        'thumbnail' => 'Fnaf.jpg',
         'trailer' => 'https://www.youtube.com/embed/5Kod1q39ddE?autoplay=1&mute=0&end=60'
     ],
     [
-        'title' => 'Crimson Dawn',
+        'title' => 'kkkkk',
         'genre' => 'Fantasy Epic',
         'thumbnail' => 'https://loremflickr.com/300/450/fantasy,dragon',
         'trailer' => 'https://www.youtube.com/embed/zSWdZVtXT7E?autoplay=1&mute=0&end=60'
@@ -167,4 +167,5 @@ $heroMovie = $movies[0]; // Featured movie for hero section
 </body>
 
 </html>
+
 
