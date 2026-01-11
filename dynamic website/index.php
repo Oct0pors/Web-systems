@@ -5,7 +5,7 @@ $movies = [
         'title' => 'Minions',
         'genre' => 'Family/Comedy',
         'thumbnail' => 'Minions.jpg',
-        'trailer' => 'Trailer1.mp4'
+        'trailer' => 'Trailer.mp4'
     ],
     [
         'title' => 'Dungeons & Dragons: Honor Among Thieves',
@@ -155,3 +155,4 @@ if (!$heroMovie) {
 <script src="script.js"></script>
 </body>
 </html>
+
