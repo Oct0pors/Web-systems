@@ -3,14 +3,14 @@
 $movies = [
     [
         'title' => 'Minions',
-        'genre' => 'Animation Comedy',
+        'genre' => 'Animation/Comedy',
         'thumbnail' => 'Minions.jpg',
-        'trailer' => 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=0&end=60'
+        'trailer' => 'Trailer1.mp4'
     ],
     [
-        'title' => 'Shadow Protocol',
-        'genre' => 'Action',
-        'thumbnail' => 'https://loremflickr.com/300/450/action,spy',
+        'title' => 'Dungeons & Dragons: Honor Among Thieves',
+        'genre' => 'Adventure/Fantasy',
+        'thumbnail' => 'Dungeons.jpg',
         'trailer' => 'https://www.youtube.com/embed/LXb3EKWsInQ?autoplay=1&mute=0&end=60'
     ],
     [
@@ -167,3 +167,4 @@ $heroMovie = $movies[0]; // Featured movie for hero section
 </body>
 
 </html>
+
