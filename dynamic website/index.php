@@ -2,9 +2,9 @@
 // Movie Database Array
 $movies = [
     [
-        'title' => 'Quantum Paradox',
-        'genre' => 'Sci-Fi Thriller',
-        'thumbnail' => 'https://loremflickr.com/300/450/scifi,space',
+        'title' => 'Minions',
+        'genre' => 'Animation Comedy',
+        'thumbnail' => 'Minions.jpg',
         'trailer' => 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=0&end=60'
     ],
     [
@@ -165,4 +165,5 @@ $heroMovie = $movies[0]; // Featured movie for hero section
     <!-- Custom JS -->
     <script src="script.js"></script>
 </body>
+
 </html>
