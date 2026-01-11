@@ -1,139 +1,3 @@
-<?php
-// Movie Database - 10 Movies
-$movies = [
-    [
-        'id' => 1,
-        'title' => 'Big Hero 6',
-        'description' => 'A young robotics prodigy forms a superhero team to combat a masked villain threatening San Fransokyo.',
-        'year' => '2014',
-        'rating' => 'PG',
-        'duration' => '1h 42m',
-        'genre' => 'Animation, Action, Adventure',
-        'thumbnail' => 'Bighero.jpg',
-        'trailer' => 'https://www.youtube.com/embed/z3biFxZIJOQ',
-        'category' => 'top'
-    ],
-    [
-        'id' => 2,
-        'title' => 'Five Nights at Freddy\'s',
-        'description' => 'A troubled security guard begins working at Freddy Fazbear\'s Pizza, where he discovers the haunted animatronics.',
-        'year' => '2023',
-        'rating' => 'PG-13',
-        'duration' => '1h 50m',
-        'genre' => 'Horror, Mystery, Thriller',
-        'thumbnail' => 'Fnaf.jpg',
-        'trailer' => 'https://www.youtube.com/embed/0VH9WCFV6XQ',
-        'category' => 'top'
-    ],
-    [
-        'id' => 3,
-        'title' => 'Minions',
-        'description' => 'Minions Stuart, Kevin, and Bob are recruited by Scarlet Overkill, a super-villain who plots to take over the world.',
-        'year' => '2015',
-        'rating' => 'PG',
-        'duration' => '1h 31m',
-        'genre' => 'Animation, Comedy, Family',
-        'thumbnail' => 'Minions.jpg',
-        'trailer' => 'https://www.youtube.com/embed/P9-FCC6I7u0',
-        'category' => 'top'
-    ],
-    [
-        'id' => 4,
-        'title' => 'Dungeons & Dragons: Honor Among Thieves',
-        'description' => 'A charming thief and a band of unlikely adventurers embark on an epic quest to retrieve a lost relic.',
-        'year' => '2023',
-        'rating' => 'PG-13',
-        'duration' => '2h 14m',
-        'genre' => 'Action, Adventure, Fantasy',
-        'thumbnail' => 'Dungeons.jpg',
-        'trailer' => 'https://www.youtube.com/embed/IiMinixSXII',
-        'category' => 'top'
-    ],
-[
-        'id' => 5,
-        'title' => 'Central Intelligence',
-        'description' => 'A mild-mannered accountant is lured into the world of international espionage after reconnecting with an old high school friend.',
-        'year' => '2016',
-        'rating' => 'PG-13',
-        'duration' => '1h 47m',
-        'genre' => 'Action, Comedy, Crime',
-        'thumbnail' => 'Central.jpg',
-        'trailer' => 'https://www.youtube.com/embed/MxEw3elSJ8M',
-        'category' => 'top'
-    ],
-    [
-        'id' => 6,
-        'title' => 'The Book of Life',
-        'description' => 'Manolo, a young man who is torn between fulfilling the expectations of his family and following his heart, embarks on an adventure.',
-        'year' => '2014',
-        'rating' => 'PG',
-        'duration' => '1h 35m',
-        'genre' => 'Animation, Adventure, Comedy',
-        'thumbnail' => 'Book.jpg',
-        'trailer' => 'https://www.youtube.com/embed/_i69CJc1BgE',
-        'category' => 'trending'
-    ],
-    [
-        'id' => 7,
-        'title' => 'Escape Room',
-        'description' => 'Six strangers find themselves in a maze of deadly mystery rooms and must use their wits to survive.',
-        'year' => '2019',
-        'rating' => 'PG-13',
-        'duration' => '1h 39m',
-        'genre' => 'Action, Adventure, Horror',
-        'thumbnail' => 'Escape.jpg',
-        'trailer' => 'https://www.youtube.com/embed/6dSKUoV0SNI',
-        'category' => 'trending'
-    ],
-    [
-        'id' => 8,
-        'title' => 'Until Dawn',
-        'description' => 'Eight friends trapped on a remote mountain retreat, and they are not alone. Gripped by dread, they must fight to survive the night.',
-        'year' => '2015',
-        'rating' => 'M',
-        'duration' => '9h', 
-        'genre' => 'Horror, Drama, Mystery',
-        'thumbnail' => 'Dawn.jpg',
-        'trailer' => 'https://www.youtube.com/embed/2b3vBaINZ7w',
-        'category' => 'trending'
-    ],
-    [
-        'id' => 9,
-        'title' => 'A Minecraft Movie',
-        'description' => 'Four misfits are pulled through a mysterious portal into the Overworld, a bizarre, cubic wonderland that thrives on imagination.',
-        'year' => '2025',
-        'rating' => 'PG',
-        'duration' => '1h 40m', // Estimated
-        'genre' => 'Adventure, Comedy, Family',
-        'thumbnail' => 'Mine.jpg',
-        'trailer' => 'https://www.youtube.com/embed/wJO_vIDZn-I',
-        'category' => 'trending'
-    ],
-    [
-        'id' => 10,
-        'title' => 'Jumanji: Welcome to the Jungle',
-        'description' => 'Four teenagers are sucked into a magical video game, and the only way they can escape is to work together to finish the game.',
-        'year' => '2017',
-        'rating' => 'PG-13',
-        'duration' => '1h 59m',
-        'genre' => 'Action, Adventure, Comedy',
-        'thumbnail' => 'Jumanji.jpg',
-        'trailer' => 'https://www.youtube.com/embed/2QKg5SZ_35I',
-        'category' => 'trending'
-    ]
-];
-
-
-
-// Separate movies by category
-$topPicks = array_filter($movies, function($movie) {
-    return $movie['category'] === 'top';
-});
-
-$trending = array_filter($movies, function($movie) {
-    return $movie['category'] === 'trending';
-});
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -187,14 +51,110 @@ $trending = array_filter($movies, function($movie) {
             </div>
         </section>
 
+        <!-- Top Picks Section -->
         <section class="movie-section">
             <h2 class="section-title">Top Picks for You</h2>
-            <div class="movie-carousel" id="topPicksContainer"></div>
+            <div class="movie-carousel" id="topPicksContainer">
+
+                <!-- Movie 1 -->
+                <div class="movie-card" data-genre="Animation, Action, Adventure" data-year="2014">
+                    <img src="Bighero.jpg" alt="Big Hero 6" class="movie-thumb">
+                    <h3 class="movie-title">Big Hero 6</h3>
+                    <p class="movie-meta">2014 | PG | 1h 42m</p>
+                    <p class="movie-genre">Animation, Action, Adventure</p>
+                    <button class="watch-trailer" data-trailer="https://www.youtube.com/embed/z3biFxZIJOQ">Watch Trailer</button>
+                </div>
+
+                <!-- Movie 2 -->
+                <div class="movie-card" data-genre="Horror, Mystery, Thriller" data-year="2023">
+                    <img src="Fnaf.jpg" alt="Five Nights at Freddy's" class="movie-thumb">
+                    <h3 class="movie-title">Five Nights at Freddy's</h3>
+                    <p class="movie-meta">2023 | PG-13 | 1h 50m</p>
+                    <p class="movie-genre">Horror, Mystery, Thriller</p>
+                    <button class="watch-trailer" data-trailer="https://www.youtube.com/embed/0VH9WCFV6XQ">Watch Trailer</button>
+                </div>
+
+                <!-- Movie 3 -->
+                <div class="movie-card" data-genre="Animation, Comedy, Family" data-year="2015">
+                    <img src="Minions.jpg" alt="Minions" class="movie-thumb">
+                    <h3 class="movie-title">Minions</h3>
+                    <p class="movie-meta">2015 | PG | 1h 31m</p>
+                    <p class="movie-genre">Animation, Comedy, Family</p>
+                    <button class="watch-trailer" data-trailer="https://www.youtube.com/embed/P9-FCC6I7u0">Watch Trailer</button>
+                </div>
+
+                <!-- Movie 4 -->
+                <div class="movie-card" data-genre="Action, Adventure, Fantasy" data-year="2023">
+                    <img src="Dungeons.jpg" alt="Dungeons & Dragons: Honor Among Thieves" class="movie-thumb">
+                    <h3 class="movie-title">Dungeons & Dragons: Honor Among Thieves</h3>
+                    <p class="movie-meta">2023 | PG-13 | 2h 14m</p>
+                    <p class="movie-genre">Action, Adventure, Fantasy</p>
+                    <button class="watch-trailer" data-trailer="https://www.youtube.com/embed/IiMinixSXII">Watch Trailer</button>
+                </div>
+
+                <!-- Movie 5 -->
+                <div class="movie-card" data-genre="Action, Comedy, Crime" data-year="2016">
+                    <img src="Central.jpg" alt="Central Intelligence" class="movie-thumb">
+                    <h3 class="movie-title">Central Intelligence</h3>
+                    <p class="movie-meta">2016 | PG-13 | 1h 47m</p>
+                    <p class="movie-genre">Action, Comedy, Crime</p>
+                    <button class="watch-trailer" data-trailer="https://www.youtube.com/embed/MxEw3elSJ8M">Watch Trailer</button>
+                </div>
+
+            </div>
         </section>
 
+        <!-- Trending Section -->
         <section class="movie-section">
             <h2 class="section-title">Trending Now</h2>
-             <div class="movie-carousel" id="trendingContainer"></div>
+            <div class="movie-carousel" id="trendingContainer">
+
+                <!-- Movie 6 -->
+                <div class="movie-card" data-genre="Animation, Adventure, Comedy" data-year="2014">
+                    <img src="Book.jpg" alt="The Book of Life" class="movie-thumb">
+                    <h3 class="movie-title">The Book of Life</h3>
+                    <p class="movie-meta">2014 | PG | 1h 35m</p>
+                    <p class="movie-genre">Animation, Adventure, Comedy</p>
+                    <button class="watch-trailer" data-trailer="https://www.youtube.com/embed/_i69CJc1BgE">Watch Trailer</button>
+                </div>
+
+                <!-- Movie 7 -->
+                <div class="movie-card" data-genre="Action, Adventure, Horror" data-year="2019">
+                    <img src="Escape.jpg" alt="Escape Room" class="movie-thumb">
+                    <h3 class="movie-title">Escape Room</h3>
+                    <p class="movie-meta">2019 | PG-13 | 1h 39m</p>
+                    <p class="movie-genre">Action, Adventure, Horror</p>
+                    <button class="watch-trailer" data-trailer="https://www.youtube.com/embed/6dSKUoV0SNI">Watch Trailer</button>
+                </div>
+
+                <!-- Movie 8 -->
+                <div class="movie-card" data-genre="Horror, Drama, Mystery" data-year="2015">
+                    <img src="Dawn.jpg" alt="Until Dawn" class="movie-thumb">
+                    <h3 class="movie-title">Until Dawn</h3>
+                    <p class="movie-meta">2015 | M | 9h</p>
+                    <p class="movie-genre">Horror, Drama, Mystery</p>
+                    <button class="watch-trailer" data-trailer="https://www.youtube.com/embed/2b3vBaINZ7w">Watch Trailer</button>
+                </div>
+
+                <!-- Movie 9 -->
+                <div class="movie-card" data-genre="Adventure, Comedy, Family" data-year="2025">
+                    <img src="Mine.jpg" alt="A Minecraft Movie" class="movie-thumb">
+                    <h3 class="movie-title">A Minecraft Movie</h3>
+                    <p class="movie-meta">2025 | PG | 1h 40m</p>
+                    <p class="movie-genre">Adventure, Comedy, Family</p>
+                    <button class="watch-trailer" data-trailer="https://www.youtube.com/embed/wJO_vIDZn-I">Watch Trailer</button>
+                </div>
+
+                <!-- Movie 10 -->
+                <div class="movie-card" data-genre="Action, Adventure, Comedy" data-year="2017">
+                    <img src="Jumanji.jpg" alt="Jumanji: Welcome to the Jungle" class="movie-thumb">
+                    <h3 class="movie-title">Jumanji: Welcome to the Jungle</h3>
+                    <p class="movie-meta">2017 | PG-13 | 1h 59m</p>
+                    <p class="movie-genre">Action, Adventure, Comedy</p>
+                    <button class="watch-trailer" data-trailer="https://www.youtube.com/embed/2QKg5SZ_35I">Watch Trailer</button>
+                </div>
+
+            </div>
         </section>
     </main>
 
@@ -221,10 +181,7 @@ $trending = array_filter($movies, function($movie) {
         </div>
     </div>
 
-    <!-- Movie Data as JSON for JavaScript -->
-    <script>
-        const moviesData = <?php echo json_encode($movies); ?>;
-    </script>
+    <!-- Script -->
     <script src="script.js"></script>
 </body>
 </html>
